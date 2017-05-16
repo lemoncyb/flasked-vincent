@@ -46,7 +46,7 @@ for cat in cat_4:
     data_3[cat] = [random.randint(10, 100) for x in index_4]
 df_2 = pd.DataFrame(data_3, index=index_4)
 
-import pandas.io.data as web
+from pandas_datareader import data as web
 all_data = {}
 for ticker in ['AAPL', 'IBM', 'YHOO', 'MSFT']:
     all_data[ticker] = web.get_data_yahoo(ticker, '1/1/2012', '1/1/2014')
