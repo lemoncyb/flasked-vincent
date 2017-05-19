@@ -1,18 +1,28 @@
 import random
 import pandas as pd
+from itertools import repeat
 
-"""
-Some data to plot, pull from:
-
-http://vincent.readthedocs.org/en/latest/quickstart.html#quick-data
-
-Copyright 2013, Rob Story, Dan Miller, et. al..
-"""
 
 #Iterable
 list_data = [10, 20, 30, 20, 15, 30, 45]
 list_name = ['l'+str(x) for x in range(1,8,1)]
 df_list = pd.DataFrame({'data':list_data, 'name':list_name})
+
+water_1 = [x for x in range(34, 134, 1)]
+water_2 = ['y' + str(x) for x in range(0, 100, 1)]
+df_water = pd.DataFrame({'Value': water_1, 'Name': water_2})
+
+# Generate stock price randomly for 5 corps during 10 years
+mon = ['Jan 1', 'Feb 1', 'Mar 1', 'Apr 1', 'May 1', 'Jun 1', 'Jul 1', 'Aug 1', 'Sep 1', 'Oct 1', 'Nov 1', 'Dec 1']
+months = mon*10
+year = range(2000, 2010, 1)
+years = [x for y in year for x in repeat(y, 12)]
+date = [m+' '+str(y) for m,y in zip(months,years)]
+dates = date*5
+corps = ['MSFT','AMZN','IBM','GOOG','AAPL']
+symbol = [x for c in corps for x in repeat(c, 12*10)]
+price = [random.uniform(10, 60) for x in range(0,12*10*5,1)]
+df_stocks = pd.DataFrame({'symbol':symbol, 'date':dates, 'price':price})
 
 #Dicts of iterables
 cat_1 = ['y1', 'y2', 'y3', 'y4']
@@ -22,40 +32,3 @@ multi_iter1 = {'index': index_1, 'name': name_1}
 for cat in cat_1:
     multi_iter1[cat] = [random.randint(10, 100) for x in index_1]
 df_0 = pd.DataFrame(multi_iter1)
-
-water_1 = [x for x in range(34, 134, 1)]
-water_2 = ['y' + str(x) for x in range(0, 100, 1)]
-df_water = pd.DataFrame({'Value': water_1, 'Name': water_2})
-
-cat_2 = ['y' + str(x) for x in range(0, 10, 1)]
-index_2 = range(1, 21, 1)
-multi_iter2 = {'index': index_2}
-for cat in cat_2:
-    multi_iter2[cat] = [random.randint(10, 100) for x in index_2]
-
-farm_1 = {'apples': 10, 'berries': 32, 'squash': 21, 'melons': 13, 'corn': 18}
-farm_2 = {'apples': 15, 'berries': 43, 'squash': 17, 'melons': 10, 'corn': 22}
-farm_3 = {'apples': 6, 'berries': 24, 'squash': 22, 'melons': 16, 'corn': 30}
-farm_4 = {'apples': 12, 'berries': 30, 'squash': 15, 'melons': 9, 'corn': 15}
-
-farm_data = [farm_1, farm_2, farm_3, farm_4]
-farm_index = ['Farm 1', 'Farm 2', 'Farm 3', 'Farm 4']
-df_farm = pd.DataFrame(farm_data, index=farm_index)
-
-#As DataFrames
-index_3 = multi_iter2.pop('index')
-df_1 = pd.DataFrame(multi_iter2, index=index_3)
-df_1 = df_1.reindex(columns=sorted(df_1.columns))
-
-cat_4 = ['Metric_' + str(x) for x in range(0, 10, 1)]
-index_4 = ['Data 1', 'Data 2', 'Data 3', 'Data 4']
-data_3 = {}
-for cat in cat_4:
-    data_3[cat] = [random.randint(10, 100) for x in index_4]
-df_2 = pd.DataFrame(data_3, index=index_4)
-
-#from pandas_datareader import data as web
-#all_data = {}
-#for ticker in ['AAPL', 'IBM', 'YHOO', 'MSFT']:
-#    all_data[ticker] = web.get_data_yahoo(ticker, '1/1/2012', '1/1/2014')
-#price = pd.DataFrame({tic: data['Adj Close'] for tic, data in iter(all_data.items())})
