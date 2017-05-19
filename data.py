@@ -11,13 +11,21 @@ Copyright 2013, Rob Story, Dan Miller, et. al..
 
 #Iterable
 list_data = [10, 20, 30, 20, 15, 30, 45]
+list_name = ['l'+str(x) for x in range(1,8,1)]
+df_list = pd.DataFrame({'data':list_data, 'name':list_name})
 
 #Dicts of iterables
 cat_1 = ['y1', 'y2', 'y3', 'y4']
+name_1 = ['x'+str(x) for x in range(0, 21, 1)]
 index_1 = range(0, 21, 1)
-multi_iter1 = {'index': index_1}
+multi_iter1 = {'index': index_1, 'name': name_1}
 for cat in cat_1:
     multi_iter1[cat] = [random.randint(10, 100) for x in index_1]
+df_0 = pd.DataFrame(multi_iter1)
+
+water_1 = [x for x in range(34, 134, 1)]
+water_2 = ['y' + str(x) for x in range(0, 100, 1)]
+df_water = pd.DataFrame({'Value': water_1, 'Name': water_2})
 
 cat_2 = ['y' + str(x) for x in range(0, 10, 1)]
 index_2 = range(1, 21, 1)
@@ -46,8 +54,8 @@ for cat in cat_4:
     data_3[cat] = [random.randint(10, 100) for x in index_4]
 df_2 = pd.DataFrame(data_3, index=index_4)
 
-from pandas_datareader import data as web
-all_data = {}
-for ticker in ['AAPL', 'IBM', 'YHOO', 'MSFT']:
-    all_data[ticker] = web.get_data_yahoo(ticker, '1/1/2012', '1/1/2014')
-price = pd.DataFrame({tic: data['Adj Close'] for tic, data in iter(all_data.items())})
+#from pandas_datareader import data as web
+#all_data = {}
+#for ticker in ['AAPL', 'IBM', 'YHOO', 'MSFT']:
+#    all_data[ticker] = web.get_data_yahoo(ticker, '1/1/2012', '1/1/2014')
+#price = pd.DataFrame({tic: data['Adj Close'] for tic, data in iter(all_data.items())})

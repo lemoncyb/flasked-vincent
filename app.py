@@ -4,7 +4,12 @@
 import data
 import vincent
 from flask import Flask, render_template
+from flask_bower import Bower
+from altair import Chart, X, Y, Axis, Config, MarkConfig
+import pandas as pd
+
 app = Flask(__name__)
+Bower(app)
 
 
 @app.route("/")
@@ -19,12 +24,29 @@ HEIGHT = 300
 
 @app.route("/data/bar")
 def data_bar():
-    return vincent.Bar(data.multi_iter1['y1'], width=WIDTH, height=HEIGHT).to_json()
+    chart = Chart(data.df_0).mark_bar(color='lightgreen').encode(
+        X('name', axis=Axis(title='Sample')),
+        Y('y1', axis=Axis(title='Value'))
+    )
+    return chart.to_json()
+
+
+@app.route("/data/waterfall")
+def data_waterfall():
+    chart = Chart(data.df_water).mark_bar(color='lightgreen').encode(
+        X('Name', axis=Axis(title='Sample')),
+        Y('Value', axis=Axis(title='Value'))
+    )
+    return chart.to_json()
 
 
 @app.route("/data/line")
 def data_line():
-    return vincent.Line(data.list_data, width=WIDTH, height=HEIGHT).to_json()
+    chart = Chart(data.df_list).mark_line().encode(
+        X('name', axis=Axis(title='Sample')),
+        Y('data', axis=Axis(title='Value'))
+    )
+    return chart.to_json()
 
 
 @app.route("/data/multiline")
